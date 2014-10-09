@@ -41,6 +41,7 @@ define
       TheGraph = {Init Name Type Graph}
       Stream Point = {NewPort Stream}
       thread
+	 try
 	 {FoldL Stream
 	  fun {$ State Msg}
 	     case Msg
@@ -122,11 +123,22 @@ define
 	     [] stop then
 		{Stop State.graph}
 		State
+	     [] halt then
+		{Record.forAll State.graph.nodes
+		 proc {$ Comp}
+		    {Comp.comp halt}
+		 end
+		}
+		raise halt_exception end
+		State
 	     end
 	  end
 	  TheGraph
 	  _
 	 }
+	 catch halt_exception then
+	    skip
+	 end
       end
       EntryPoint
    in

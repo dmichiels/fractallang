@@ -202,6 +202,7 @@ define
 	 else {RecCB Bufs} end
       end
       thread
+	 try
 	 %Every messages send to the component is deal in this FoldL
 	 {FoldL Stream
 	  fun {$ State Msg}
@@ -390,6 +391,9 @@ define
 		   {Out.'ERROR' cannot_unBound(error:E state:State name:State.name type:State.type)}
 		   State
 		end
+	     [] halt then
+		raise halt_exception end
+		State
 	     end
 	  end
           % The accumulator
@@ -397,6 +401,9 @@ define
           % The return value (not needed?)
 	  _
 	 }
+	 catch halt_exception then
+	    skip
+	 end
       end
       P
    in
