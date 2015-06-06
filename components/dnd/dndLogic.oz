@@ -28,6 +28,6 @@ define
 				    end
 				 end
 			      end)
-		    state(click:false x:0 y:0)
+		    state(click:false lastX:0 lastY:0)
 		   )
 end

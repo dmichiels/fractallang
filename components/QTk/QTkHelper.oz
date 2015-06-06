@@ -70,12 +70,12 @@ define
    proc {BindBasicEvents Handle EP}
       for E in ['ButtonPress' 'ButtonRelease'] do
 	 {Handle bind(event:"<"#{Atom.toString E}#">"
-		      args:[int(b) int(x) int(y)]
+		      args:[int(b) int('X') int('Y')]
 		      action: proc {$ B X Y} {EP send('in' E(button:B x:X y:Y) _)} end
 		     )}
       end
       {Handle bind(event:"<Motion>"
-		   args:[int(x) int(y) string(s)]
+		   args:[int('X') int('Y') string(s)]
 		   action: proc{$ X Y S} {EP send('in' 'Motion'(x:X y:Y state:S) _)} end
 		  )}
       for E in ['Enter' 'Leave'] do

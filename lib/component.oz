@@ -408,7 +408,7 @@ define
    fun {InPorts In}
       {Record.foldL In
        fun {$ Acc P} Size in
-	  Size = if {HasFeature P size} then P.size else 25 end
+	  Size = if {HasFeature P size} then P.size else 100 end
 	  {Record.adjoinAt Acc {Label P} port(q:{NewQueue Size})}
        end
        'in'()

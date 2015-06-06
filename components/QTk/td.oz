@@ -25,7 +25,7 @@ define
       of create then H B in
 	 if Comp.state.t \= nil andthen {Thread.state Comp.state.t} \= terminated then {Thread.terminate Comp.state.t} end
 	 B = {Record.adjoin IP grid(handle:H)}
-	 {Out.out create(B)}
+	 {QTkHelper.sendOut Out create(B)}
 	 thread
 	    Comp.state.t := {Thread.this}
 	    {Wait H}

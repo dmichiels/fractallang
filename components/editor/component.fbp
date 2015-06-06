@@ -4,38 +4,41 @@ in => in awIn(QTk/actionsWrapper) out -> in awOut(QTk/actionsWrapper) out => out
 awOut() action => action
 
 % ---
-% UI flow
-awIn() action#create -> in create(editor/component/create)
-create() uiObj -> in uiObj(editor/uiObject) out -> in awOut()
-create() comp -> in compManager(editor/component/compManager) out -> in awOut()
+% Model
+awIn() action#create -> in model(editor/component/model)
 
 % ---
-% uiObject events
-uiObj() action#displayObj -> in compManager()
-uiObj() action#createLink -> in compManager()
+% View
 
-% ---
-% Change image for special comp
-compManager() image -> in uiObj()
+% Component
+% Display a name and a picture
+model() canvas -> in canvas(QTk/canvas) out -> in awOut()
+model() name -> in name(QTk/canvas/text) out -> widget canvas()
+model() canvasImage -> in canvasImage(QTk/canvas/image) out -> widget canvas()
+model() image -> input image(QTk/image) output -> image canvasImage()
+% Display the control view
+canvasImage() action#ButtonPress -> mouse model()
+name() action#ButtonPress -> mouse model()
 
-% ---
-% Rename
-awIn() action#nameChange -> in compManager()
-awIn() action#nameChange -> in uiObj()
+% Control
+"create(bg:white)" -> in control(QTk/td) out -> push#control push(ip/pushAction) out -> in awOut()
 
-% ---
-% show/hide
-awIn() action#displayObj -> in uiObj()
-awIn() action#closeObj -> in uiObj()
+% name
+model() controlName -> in label(QTk/label) out -> place#1 control()
+model() controlType -> in type(QTk/label) out -> place#2 control()
+% start
+"create(text:\"Start\" glue:ens)" -> in startButton(QTk/button) out -> place#3 control()
+startButton() action#button_clicked -> start model()
+% stop
+"create(text:\"Stop\" glue:ens)" -> in stopButton(QTk/button) out -> place#4 control()
+stopButton() action#button_clicked -> stop model()
+% start
+"create(text:\"Load\" glue:ens)" -> in loadButton(QTk/button) out -> place#5 control()
+loadButton() action#button_clicked -> input compLoad(editor/component/compLoad) output -> load model()
+% start
+"create(text:\"Delete\" glue:ens)" -> in deleteButton(QTk/button) out -> place#6 control()
+deleteButton() action#button_clicked -> delete model()
 
-% ---
-% Events from outside
-awIn() action#start -> in compManager()
-awIn() action#stop -> in compManager()
-awIn() action#newComp -> in compManager()
-awIn() action#options -> in compManager()
-% delete
-awIn() action#delete -> in compManager()
-awIn() action#delete -> in uiObj()
-% For the links
-awIn() action#delete -> in awOut() action#delete -> input discard(discard)
+model() control -> in control()
+
+% Options
