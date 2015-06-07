@@ -1,0 +1,20 @@
+% ---
+% Action flow
+in => in awIn(QTk/actionsWrapper) out -> in proxy(editor/movable/proxy)
+options => options proxy()
+proxy() out -> in window(QTk/canvas/window) out -> in awOut(QTk/actionsWrapper)
+awOut() out => out
+awOut() action => action
+
+proxy() action#create -> window window()
+
+% ---
+% model
+awIn() action#create -> in model(editor/movable/model) window -> in window()
+model() proxy -> in proxy()
+
+% ---
+% DnD
+proxy() action#ButtonPress -> input dnd(dnd/dndLogic) move -> position model()
+proxy() action#ButtonRelease -> input dnd()
+proxy() action#Motion -> input dnd()

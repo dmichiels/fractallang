@@ -1,0 +1,36 @@
+% ---
+% Creation
+lr(QTk/lr) out -> in win(QTk/window)
+"create(glue:nswe bg:white)" -> in lr()
+"set(title:\"Fractalide\")" -> in win()
+
+% ---
+% Model : graph
+model(editor/editor/model) out -> in aw(QTk/actionsWrapper) out -> widget canvas(QTk/canvas)
+aw() action#control -> pop pop(ip/popAction) out -> place elemControl(QTk/placeholder)
+
+% ---
+% View
+
+% Left Panel
+td(QTk/td) out -> place#1 lr()
+"create(glue:nswe bg:white)" -> in td()
+% graphControl
+createCompButton(QTk/button) out -> place#1 td()
+"create(text:\"Create Component\")" -> in createCompButton()
+createCompButton() action#button_clicked -> newComponent model()
+
+% elemControl
+elemControl() out -> place#2 td()
+"create" -> in elemControl()
+
+% Canvas
+canvas() out -> place#2 lr()
+"create(width:500 height:500 bg:white)" -> in canvas()
+
+
+% ---
+% Comp
+% "create(name:'hoho' 100 100)" -> in movable(editor/movable) out -> widget canvas()
+% "opt(comp:'editor/component')" -> options movable()
+% movable() action#control -> rename#create rename(ip/rename) out -> place elemControl()
